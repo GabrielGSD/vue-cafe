@@ -1,0 +1,47 @@
+<template>
+    <div id="nav">
+      <div class="content">
+        <img
+          src="../assets/img/logoWhite.svg"
+          height="50"
+          alt="Logo Shortens Coffe"
+        />
+        <div class="tabs">
+          <router-link to="/">Home</router-link>
+          <router-link to="/about">About</router-link>
+        </div>
+      </div>
+    </div>
+</template>
+
+<style>
+#nav {
+  background-color: rgba(30, 13, 0, 0.7);
+  height: 70px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+  position: absolute;
+}
+.content {
+  width: 85%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tabs a {
+  color: white;
+  margin-right: 26px;
+  text-decoration: none;
+  font-size: 18px;
+}
+</style>
+
+<script>
+
+export default {
+  name: "Nav",
+}
+</script>
