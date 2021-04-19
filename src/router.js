@@ -10,17 +10,17 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: () => import(/* webpackChunkName: "about" */ './views/Home.vue')
+      component: () => import('./views/Home.vue')
     },
     {
       path: '/entrar',
       name: 'entrar',
-      component: () => import(/* webpackChunkName: "about" */ './views/Entrar.vue')
+      component: () => import('./views/Entrar.vue')
     },
     {
       path: '/cadastrar',
       name: 'cadastrar',
-      component: () => import(/* webpackChunkName: "about" */ './views/Cadastrar.vue')
+      component: () => import('./views/Cadastrar.vue')
     },
     
   ]

@@ -63,6 +63,7 @@
     background-repeat: no-repeat;
     height: 75vh;
     width: 40vw;
+    max-width: 550px;
     border-radius: 50px;
 }
 .box h1 {
