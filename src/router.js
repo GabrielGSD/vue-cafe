@@ -12,6 +12,16 @@ export default new Router({
       name: 'home',
       component: () => import(/* webpackChunkName: "about" */ './views/Home.vue')
     },
+    {
+      path: '/entrar',
+      name: 'entrar',
+      component: () => import(/* webpackChunkName: "about" */ './views/Entrar.vue')
+    },
+    {
+      path: '/cadastrar',
+      name: 'cadastrar',
+      component: () => import(/* webpackChunkName: "about" */ './views/Cadastrar.vue')
+    },
     
   ]
 })

@@ -13,6 +13,10 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+html {
+overflow: hidden;
+}
+
 h1,
 h2,
 p {

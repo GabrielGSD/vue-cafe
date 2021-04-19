@@ -75,7 +75,7 @@
           <v-divider></v-divider>
         </div>
         <p style="text-align: center; font-weight: 400; color: #fff;">Basta se cadastrar na plataforma e aproveitar.</p>
-        <v-btn rounded color="#ffb800" style="margin: 45px 0 70px 0px;">Cadastrar</v-btn>
+        <v-btn rounded color="#ffb800" style="margin: 45px 0 70px 0px;" @click="$router.push('cadastrar')">Cadastrar</v-btn>
       </div>
     </div>
 

@@ -8,7 +8,8 @@
         />
         <div class="tabs">
           <router-link to="/">Home</router-link>
-          <router-link to="/about">About</router-link>
+          <router-link to="/entrar">Entrar</router-link>
+          <router-link to="/cadastrar">Cadastrar</router-link>
         </div>
       </div>
     </div>
@@ -43,5 +44,6 @@
 
 export default {
   name: "Nav",
+  computed: {}
 }
 </script>
