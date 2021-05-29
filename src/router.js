@@ -22,6 +22,21 @@ export default new Router({
       name: 'cadastrar',
       component: () => import('./views/Cadastrar.vue')
     },
+    {
+      path: '/fazenda',
+      name: 'fazenda',
+      component: () => import('./views/Fazenda.vue')
+    },
+    {
+      path: '/cafe',
+      name: 'cafe',
+      component: () => import('./views/Cafe.vue')
+    },
+    {
+      path: '/catalogo',
+      name: 'catalogo',
+      component: () => import('./views/Catalogo.vue')
+    },
     
   ]
 })

@@ -8,6 +8,9 @@
         />
         <div class="tabs">
           <router-link to="/">Home</router-link>
+          <router-link to="/fazenda">Fazenda</router-link>
+          <router-link to="/cafe">Café</router-link>
+          <router-link to="/catalogo">Catálogo</router-link>
           <router-link to="/entrar">Entrar</router-link>
           <router-link to="/cadastrar">Cadastrar</router-link>
         </div>
@@ -17,7 +20,7 @@
 
 <style>
 #nav {
-  background-color: rgba(30, 13, 0, 0.7);
+  background-color: rgba(30, 13, 0);
   height: 70px;
   width: 100%;
   display: flex;

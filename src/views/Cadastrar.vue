@@ -36,7 +36,7 @@
     margin-top: 70px;
 }
 .cadastrar {
-    background-image: url("../assets/img/bgCafe.jpg");
+    background-image: url("../assets/img/bgLogin.jpg");
     background-size: cover;
     height: calc(100vh - 65px);
 }

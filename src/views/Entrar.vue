@@ -36,7 +36,7 @@
     margin-top: 70px;
 }
 .entrar {
-    background-image: url("../assets/img/bgCafe.jpg");
+    background-image: url("../assets/img/bgLogin.jpg");
     background-size: cover;
     height: calc(100vh - 65px);
 }
@@ -59,8 +59,7 @@
     align-items: center;
 }
 .box .v-card {
-    background-image: url("../assets/img/bgCafe.jpg");
-    background-repeat: no-repeat;
+    background-color: #fff;
     height: 75vh;
     width: 40vw;
     max-width: 550px;
@@ -68,10 +67,10 @@
 }
 .box h1 {
     text-align: center;
-    color: #fff;
+    color: #331602;
     margin-top: 55px;
     font-size: 48px;
-    font-weight: 400;
+    font-weight: bold;
 }
 
 .sidenav {
