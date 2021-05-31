@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" data-app>
     <div class="banner">
       <div class="ContBanner">
         <h1>Sua nova maneira de comercializar café</h1>
@@ -7,7 +7,7 @@
           Pela nossa plataforma, voce pode negociar sua produção, com
           transparência, agilidade e segurança que o mercado merece.
         </p>
-        <v-btn rounded color="#ffb800">Saiba mais</v-btn>
+        <v-btn @click="dialog = true" rounded color="#ffb800">Saiba mais</v-btn>
       </div>
     </div>
 
@@ -133,7 +133,7 @@
   font-size: 48px;
   margin-bottom: 25px;
 }
-.v-btn {
+.home .v-btn {
   margin-top: 105px;
   width: 200px;
   height: 50px !important;
@@ -186,7 +186,9 @@ export default {
     Footer,
   },
   data() {
-    return {};
+    return {
+      dialog: false,
+    };
   },
 };
 </script>

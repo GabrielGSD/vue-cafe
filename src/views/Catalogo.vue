@@ -1,7 +1,6 @@
 <template>
   <div id="catalogo">
     
-
     <Footer></Footer>
   </div>
 </template>

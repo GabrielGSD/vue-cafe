@@ -27,6 +27,7 @@
   align-items: center;
   font-family: "Roboto", sans-serif;
   position: absolute;
+  z-index: 9999;
 }
 .content {
   width: 85%;

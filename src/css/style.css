@@ -1,0 +1,38 @@
+.screen {
+    height: calc(100vh - 65px);
+    display: flex;
+    justify-content: center;
+}
+
+.v-sheet {
+    width: 80vw;
+    margin: 10vh 0;
+    border-radius: 10px;
+    box-shadow: 0px 5px 5px rgb(0 0 0 / 8%) !important;
+}
+
+.v-sheet .title {
+    font-size: 2.25rem;
+    font-weight: 600;
+    color: #331602;
+    margin: 45px 0px 0px 50px;
+}
+
+.container-scroll {
+    width: 65vw;
+    margin: 50px auto;
+    min-height: 270px;
+    max-height: 55vh;
+    overflow-y: auto;
+    margin-top: 60px !important;
+    justify-content: center;
+}
+
+.v-dialog {
+    width: 50vw;
+    max-width: 700px;
+}
+
+legend {
+    margin-left: 13px !important;
+}
