@@ -104,7 +104,13 @@
                   item-value="dsVariedade"
                   :rues="[(v) => !!v || '']"
                 ></v-select>
-                
+                <v-checkbox
+                  v-model="ex4"
+                  label="red"
+                  color="red"
+                  value="red"
+                  hide-details
+                ></v-checkbox>
               </v-row>
             </v-col>
           </v-card>
