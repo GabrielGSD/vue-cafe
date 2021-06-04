@@ -104,15 +104,49 @@
                   item-value="dsVariedade"
                   :rues="[(v) => !!v || '']"
                 ></v-select>
+              </v-row>
+              <v-row>
                 <v-checkbox
-                  v-model="ex4"
-                  label="red"
-                  color="red"
-                  value="red"
+                  v-model="cafe.dsEspecial"
+                  label="Especial"
+                  color="#D19700"
                   hide-details
                 ></v-checkbox>
               </v-row>
+              <v-row>
+                <v-text-field
+                  v-model="cafe.dsAroma"
+                  label="Aroma"
+                  single-line
+                  outlined
+                ></v-text-field>
+              </v-row>
+              <v-row>
+                <v-text-field
+                  v-model="cafe.dsSabor"
+                  label="Sabor"
+                  single-line
+                  outlined
+                ></v-text-field>
+              </v-row>
+              <v-row>
+                <v-text-field
+                  v-model="cafe.dsAcidez"
+                  label="Acidez"
+                  single-line
+                  outlined
+                ></v-text-field>
+              </v-row>
             </v-col>
+            <v-row>
+              <v-btn
+                elevation="2"
+                color="#FFB800"
+                style="margin: 0 auto 20px auto; max-width: 110px; border-radius: 10px;"
+              >
+                Salvar
+              </v-btn>
+            </v-row>
           </v-card>
         </v-dialog>
     <Footer></Footer>
@@ -164,6 +198,12 @@
 }
 .v-list {
   margin: 0 !important;
+}
+.v-text-field__details {
+  display: none;
+}
+.v-input {
+  margin-top: 10px !important;
 }
 </style>
 
