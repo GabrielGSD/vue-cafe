@@ -194,9 +194,6 @@
   margin: 0 !important;
   height: 60vh;
 }
-.v-menu__content {
-  max-width: 22vw;
-}
 .v-list {
   margin: 0 !important;
 }

@@ -61,10 +61,6 @@
     align-items: center;
 }
 
-.margin-bot {
-    margin-bottom: 20px;
-}
-
 
 </style>
 

@@ -38,7 +38,7 @@
                 >
                   <img style="height: 165px; width: 18.4vw; max-width: 248px; border-radius: 5px;" src="../assets/img/fazenda-ex.jpg" alt="Foto da fazenda">
                   <v-col>
-                    <h1 style="font-size: 14px;">Fazenda de maconha asdasdasda</h1>
+                    <h1 style="font-size: 14px;">Fazenda São Sebastião</h1>
                     <v-rating
                       v-model="rating"
                       color="#FFB800"

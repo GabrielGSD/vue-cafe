@@ -41,6 +41,11 @@
     max-width: 700px;
 }
 
+.v-menu__content {
+    max-width: 22vw;
+    max-width: 336px;
+}
+
 legend {
     margin-left: 13px !important;
 }
@@ -56,6 +61,10 @@ legend {
     text-align: center;
     margin: 0 !important;
     margin-top: 60px !important;
+}
+
+.margin-bot {
+    margin-bottom: 20px;
 }
 
 .txt-btn {

@@ -2,7 +2,7 @@
     <div id="nav">
       <div class="content">
         <img
-          src="../assets/img/logoWhite.svg"
+          src="../assets/img/new_logo_2.svg"
           height="50"
           alt="Logo Shortens Coffe"
         />

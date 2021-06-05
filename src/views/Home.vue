@@ -169,10 +169,10 @@
   color: #331602;
 }
 .title .v-divider{
-  width: 166px;
-  border: 3px solid #D19700;
-  border-radius: 4px;
-  margin-top: 10px;
+  width: 166px !important;
+  border: 3px solid #ffb800 !important;
+  border-radius: 4px !important;
+  margin-top: 10px !important;
 }
 
 </style>
