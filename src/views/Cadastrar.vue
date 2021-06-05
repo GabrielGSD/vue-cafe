@@ -1,26 +1,61 @@
 <template>
   <div id="cadastrar">
-    <v-col class="cadastrar">
-        <div class="grid grid-template-areas">
-            <div class="logo"><img src="../assets/img/logo.svg" width="400" alt="Logo Shortens Coffe"></div>
-            <div class="nav"></div>
-            <div class="divider"></div>
-            <!-- <div class="box">
-                <img src="../assets/img/box.svg" style="height:75vh" alt="">
-                <h1>Cadastrar</h1>
-            </div> -->
-            <div class="box">
-                <v-card>
-                    <h1>Cadastrar</h1>
-                </v-card>
-            </div>
-            <div class="sidenav"></div>
-            <div class="advert"></div>
-            <div class="item1"></div>
-            <!-- <v-card class="box"></v-card>
-            <div class="space"></div>
-            <div class="space2"></div> -->
-        </div>
+    <v-col class="cadastrar container-log">
+        <div class="logo"><img src="../assets/img/new_logo.svg" width="400" alt="Logo ConectaCafé"></div>
+        <v-sheet elevation="4" max-width="450" style="border-radius: 40px">
+            <h1 class="title log">Cadastro</h1>
+            <v-col cols="12" sm="10" style="margin: 30px auto;">
+                <v-row>
+                    <v-text-field
+                        outlined
+                        label="Nome"
+                        v-model="nome" 
+                    ></v-text-field>
+                </v-row>
+
+                <v-row>
+                    <v-text-field
+                        outlined
+                        label="CPF"
+                        v-model="cpf" 
+                    ></v-text-field>
+                </v-row>
+
+                <v-row>
+                    <v-text-field
+                        outlined
+                        label="Telefone"
+                        v-model="telenone" 
+                    ></v-text-field>
+                </v-row>
+
+                <v-row>
+                    <v-text-field
+                        outlined
+                        label="Email"
+                        v-model="email" 
+                    ></v-text-field>
+                </v-row>
+
+                <v-row class="margin-bot">
+                    <v-text-field
+                        outlined
+                        label="Senha"
+                        v-model="senha" 
+                    ></v-text-field>
+                </v-row>
+
+                <v-row class="margin-bot"> 
+                    <v-btn width="100%" color="#FFB800" rounded>
+                        Cadastrar
+                    </v-btn>
+                </v-row>
+
+                <v-row>
+                    <router-link to="/entrar" class="txt-btn"><span>Já possui uma conta? Clique aqui.</span></router-link>
+                </v-row>
+            </v-col>
+        </v-sheet>
 
     </v-col>
 
@@ -36,7 +71,7 @@
     margin-top: 70px;
 }
 .cadastrar {
-    background-image: url("../assets/img/bgLogin.jpg");
+    background-image: url("../assets/img/new_bg.png");
     background-size: cover;
     height: calc(100vh - 65px);
 }
@@ -46,60 +81,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.nav {
-	grid-area: nav;
-}
-
-.box {
-	grid-area: box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.box .v-card {
-    background-image: url("../assets/img/bgCafe.jpg");
-    background-repeat: no-repeat;
-    height: 75vh;
-    width: 40vw;
-    max-width: 550px;
-    border-radius: 50px;
-}
-.box h1 {
-    text-align: center;
-    color: #fff;
-    margin-top: 55px;
-    font-size: 48px;
-    font-weight: 400;
-}
-
-.sidenav {
-	grid-area: sidenav;
-}
-
-.advert {
-	grid-area: advert;
-}
-
-.divider {
-    grid-area: divider;
-    border: 2px solid #fff;
-    border-radius: 5px;
-}
-
-.item1 {
-    grid-area: item1;
-}
-
-.grid-template-areas {
-    grid-template-columns: 5% 1fr 2px 1fr 5%;
-	grid-template-rows: 3vh 1fr 3vh;
-	grid-template-areas:
-		"sidenav nav nav nav nav"
-		"sidenav logo divider box advert"
-		"item1 item1 item1 item1 item1"
-		;
 }
 
 </style>

@@ -63,7 +63,7 @@
               color="#331602"
               dark
             >
-              <v-toolbar-title style="display: flex; align-items: center;">
+              <v-toolbar-title style="display: flex; align-items: center; margin: 0 35px;">
                 <img width="32px" style="margin-right: 15px" src="../assets/img/icon_cafe.svg"/>
                 Novo Café
               </v-toolbar-title>
@@ -137,23 +137,23 @@
                   outlined
                 ></v-text-field>
               </v-row>
+              <v-row>
+                <v-btn
+                  elevation="2"
+                  color="#FFB800"
+                  style="margin: 30px auto 20px auto; max-width: 110px; border-radius: 10px;"
+                >
+                  Salvar
+                </v-btn>
+              </v-row>
             </v-col>
-            <v-row>
-              <v-btn
-                elevation="2"
-                color="#FFB800"
-                style="margin: 0 auto 20px auto; max-width: 110px; border-radius: 10px;"
-              >
-                Salvar
-              </v-btn>
-            </v-row>
           </v-card>
         </v-dialog>
     <Footer></Footer>
   </div>
 </template>
 
-<style>
+<style scoped>
 #cafe {
   background-color: #F3F3F3;
 }
@@ -192,6 +192,7 @@
 }
 #cafe .v-card, .v-card .v-sheet {
   margin: 0 !important;
+  height: 60vh;
 }
 .v-menu__content {
   max-width: 22vw;

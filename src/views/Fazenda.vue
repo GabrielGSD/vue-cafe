@@ -9,16 +9,14 @@
             
             <v-card-text>
                 <v-row
-                    class="tab-fazenda mx-0" 
+                    class="tab tab-fazenda mx-0" 
                 >
-                    <span @click="selected = 0" v-bind:class="{ 'filled': isActive.sobre, 'border_sel' : selected==0}">Sobre</span>
+                    <span @click="selected = 0" v-bind:class="{ 'filled': isActive.sobre, 'border_sel, filled-border' : selected==0}">Sobre</span>
                     <span @click="selected = 1" v-bind:class="{ 'filled': isActive.midia, 'border_sel' : selected==1}">Mídia</span>
                     <span @click="selected = 2" v-bind:class="{ 'filled': isActive.local, 'border_sel' : selected==2}">Localização</span>
                     <!-- <span @click="selected = 3" v-bind:class="{ 'filled': isActive.alt, 'border_sel' : selected==3}">Altitude</span> -->
                     <span @click="selected = 4" v-bind:class="{ 'filled': isActive.cont, 'border_sel' : selected==4}">Contato</span>
                 </v-row>
-                
-                <v-divider></v-divider>
 
                 <v-row>
                     <v-col cols="12" md="8" style="margin: 0 auto;">
@@ -131,6 +129,7 @@
     width: 65%;
     margin: 0 auto;
     margin-top: 30px;
+    align-content: center;
 }
 
 .tab-fazenda span {
@@ -142,6 +141,9 @@
 
 .filled {
     color: #9F3508 !important;
+}
+.filled-border {
+    border-bottom: 2px solid #9f3508 !important;
 }
 
 .border_sel {
@@ -222,7 +224,7 @@ export default {
   data() {
     return {
         isActive: {
-            sobre: false, midia: false, local: false, alt: false, cont: false
+            sobre: true, midia: false, local: false, alt: false, cont: false
         },
         dropzone: '',
         cont: {
