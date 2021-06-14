@@ -9,7 +9,7 @@
                     <v-text-field
                         outlined
                         label="Email"
-                        v-model="email" 
+                        v-model="user.email" 
                     ></v-text-field>
                 </v-row>
 
@@ -17,12 +17,12 @@
                     <v-text-field
                         outlined
                         label="Senha"
-                        v-model="senha" 
+                        v-model="user.senha" 
                     ></v-text-field>
                 </v-row>
 
                 <v-row class="margin-bot"> 
-                    <v-btn width="100%" color="#FFB800" rounded>
+                    <v-btn @click="login()" width="100%" color="#FFB800" rounded>
                         Entrar
                     </v-btn>
                 </v-row>
@@ -66,6 +66,7 @@
 
 <script>
 import Footer from '../components/Footer';
+import Fazenda from '../service/fazenda'
 
 export default {
   name: "Entrar",
@@ -73,7 +74,26 @@ export default {
     Footer,
   },
   data() {
-    return {};
+    return {
+        user: {email: '', senha: ''}
+    };
   },
+  methods: {
+    login() {  
+        Fazenda.loginUser(this.user.email).then(resposta => {
+            if(resposta.data.email == this.user.email && resposta.data.senha == this.user.senha) {
+                localStorage.setItem("isLogged", true);
+                localStorage.setItem("idUser", resposta.data.cafeicultorId);
+                this.getData();
+                alert("Logado com sucesso")
+            }
+        }) 
+    },
+    getData() {
+        Fazenda.listarFazenda().then(resposta => {
+            localStorage.setItem("dados", resposta);
+        })
+    },
+  }
 };
 </script>

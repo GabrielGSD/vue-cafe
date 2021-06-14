@@ -7,7 +7,7 @@
           Pela nossa plataforma, voce pode negociar sua produção, com
           transparência, agilidade e segurança que o mercado merece.
         </p>
-        <v-btn @click="dialog = true" rounded color="#ffb800">Saiba mais</v-btn>
+        <img class="arrow" src="../assets/img/arrow.svg">
       </div>
     </div>
 
@@ -121,6 +121,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 .ContBanner {
   text-align: center;
@@ -132,6 +133,10 @@
   color: #ffb800;
   font-size: 48px;
   margin-bottom: 25px;
+}
+.banner .arrow {
+  position: absolute;
+  bottom: 40px;
 }
 .home .v-btn {
   margin-top: 105px;
@@ -174,7 +179,21 @@
   border-radius: 4px !important;
   margin-top: 10px !important;
 }
+.arrow {
+  -webkit-animation: slide 1s linear infinite; 
+}
 
+@-webkit-keyframes slide {
+    0% {transform: translateY(0vh); }  
+    50% {transform: translateY(2vh); } 
+    100% {transform: translateY(0vh); } 
+}
+
+@keyframes slide {
+    0% {transform: translateY(0vh); }  
+    50% {transform: translateY(2vh); } 
+    100% {transform: translateY(0vh); } 
+}
 </style>
 
 <script>

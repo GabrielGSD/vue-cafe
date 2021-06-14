@@ -18,24 +18,34 @@
                     <span @click="selected = 4" v-bind:class="{ 'filled': isActive.cont, 'border_sel' : selected==4}">Contato</span>
                 </v-row>
 
-                <v-row>
+                <v-row class="container-scroll" style="margin-top: 15px !important; margin-bottom: 0 !important; max-height: 45vh !important;">
                     <v-col cols="12" md="8" style="margin: 0 auto;">
                         <div class="contents" v-if="selected == 0">
                             <v-row style="margin: 10px 0;">
-                                <h1>Sobre</h1>
+                                <h1 class="nome-func">Sobre</h1>
+                            </v-row>
+
+                            <v-row style="display: flex; flex-direction: column; margin-bottom: 20px;">
+                                <h1>Nome da fazenda</h1>
+                                <v-text-field
+                                    outlined
+                                    v-model="fazenda.nome" 
+                                ></v-text-field>
                             </v-row>
 
                             <v-row>
                                 <v-textarea
                                     outlined
                                     name="input-7-4"
+                                    placeholder="Conte-nos um pouco sobre a história de sua fazenda."
+                                    v-model="fazenda.sobreHistoria"
                                 ></v-textarea>
                             </v-row>
                         </div>
 
                         <div class="contents" v-if="selected == 1">
                             <v-row style="margin: 10px 0;">
-                                <h1>Mídia</h1>
+                                <h1 class="nome-func">Mídia</h1>
                             </v-row>
 
                             <v-row>
@@ -50,9 +60,46 @@
                             </v-row>
                         </div>
 
+                        <div class="contents" v-if="selected == 2">
+                            <v-row style="margin: 10px 0;">
+                                <h1 class="nome-func">Localização</h1>
+                            </v-row>
+                            <v-col cols="12" sm="10" md="10" style="margin: 0 auto;">
+                                <v-row style="display: flex; flex-direction: column;">
+                                    <h1>Cidade</h1>
+                                    <v-text-field
+                                        outlined
+                                        v-model="fazenda.cidade"
+                                    ></v-text-field>
+                                </v-row>
+                                <v-row style="display: flex; flex-direction: column;">
+                                    <h1>CEP</h1>
+                                    <v-text-field
+                                        outlined
+                                         v-model="fazenda.cep"
+                                    ></v-text-field>
+                                </v-row>
+                                <v-row style="display: flex; flex-direction: column;">
+                                    <h1>Rua</h1>
+                                    <v-text-field
+                                        outlined
+                                        v-model="fazenda.rua"
+                                    ></v-text-field>
+                                </v-row>
+                                <v-row style="display: flex; flex-direction: column;">
+                                    <h1>Bairro</h1>
+                                    <v-text-field
+                                        outlined
+                                        v-model="fazenda.bairro"
+                                    ></v-text-field>
+                                </v-row>
+                            </v-col>     
+                            
+                        </div>
+
                         <div class="contents" v-if="selected == 4">
                             <v-row style="margin: 10px 0;">
-                                <h1>Contato</h1>
+                                <h1 class="nome-func">Contato</h1>
                             </v-row>
 
                             <v-col cols="12" sm="10" md="10" style="margin: 0 auto;">
@@ -60,43 +107,43 @@
                                     <h1>Telefone</h1>
                                     <v-text-field
                                         outlined
-                                        v-model="cont.tel" 
+                                        v-model="fazenda.telefone" 
                                     ></v-text-field>
                                 </v-row>
                                 <v-row style="display: flex; flex-direction: column;">
                                     <h1>Email</h1>
                                     <v-text-field
                                         outlined
-                                        v-model="cont.email"
+                                        v-model="fazenda.email"
                                     ></v-text-field>
                                 </v-row>
                                 <v-row style="display: flex; flex-direction: column;">
                                     <h1>Instagram</h1>
                                     <v-text-field
                                         outlined
-                                        v-model="cont.instagram"
+                                        v-model="fazenda.instagram"
                                     ></v-text-field>
                                 </v-row>
                                 <v-row style="display: flex; flex-direction: column;">
                                     <h1>Facebook</h1>
                                     <v-text-field
                                         outlined
-                                        v-model="cont.facebook"
+                                        v-model="fazenda.facebook"
                                     ></v-text-field>
                                 </v-row>
                             </v-col>            
                         </div>
-
-                        <v-row>
-                            <v-btn
-                                elevation="2"
-                                color="#FFB800"
-                                style="margin: 0 auto; max-width: 110px; border-radius: 10px;"
-                            >
-                                Salvar
-                            </v-btn>
-                        </v-row>
                     </v-col>
+                </v-row>
+                <v-row>
+                    <v-btn
+                        elevation="2"
+                        color="#FFB800"
+                        style="margin: 0 auto; max-width: 110px; border-radius: 10px;"
+                        @click="salvar()"
+                    >
+                        Salvar
+                    </v-btn>
                 </v-row>
             </v-card-text>
       </v-sheet>
@@ -128,7 +175,6 @@
     justify-content: space-evenly;
     width: 65%;
     margin: 0 auto;
-    margin-top: 30px;
     align-content: center;
 }
 
@@ -163,14 +209,18 @@
     min-height: 40vh;
 }
 
+.contents .nome-func {
+    color: #331602;
+    font-size: 2rem;
+    margin: 0 auto;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
 .contents h1 {
     color: #331602;
     font-size: 1rem;
     font-weight: 500;
-}
-
-textarea, .v-input_slot {
-    max-height: 20vh;
 }
 
 .dropzone {
@@ -214,6 +264,7 @@ textarea, .v-input_slot {
 import Footer from '../components/Footer';
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+import Fazenda from '../service/fazenda'
 
 export default {
   name: "Fazenda",
@@ -227,8 +278,8 @@ export default {
             sobre: true, midia: false, local: false, alt: false, cont: false
         },
         dropzone: '',
-        cont: {
-            tel: '', email: '', instagram: '', facebook: ''
+        fazenda: {
+            cidade: '', cep: '', rua: '', bairro: '', nome: '', sobreHistoria: '', telefone: '', email: '', instagram: '', facebook: '', cafeicultor: {cafeicultorId: ''},
         },
         selected: 0,
         dropzoneOptions: {
@@ -239,5 +290,20 @@ export default {
         }
     };
   },
+    methods: {
+        salvar() {
+            var user = localStorage.getItem("idUser");
+
+            this.fazenda.cafeicultor.cafeicultorId = user;
+
+            console.log(this.fazenda)
+            
+            Fazenda.cadastrarFazenda(this.fazenda).then(resposta => {
+                alert("Salvo com sucesso!", resposta);
+
+                //Fazer o alerta certo
+            })
+        }
+    }
 };
 </script>

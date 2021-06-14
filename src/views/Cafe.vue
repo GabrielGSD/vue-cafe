@@ -70,83 +70,111 @@
               <v-spacer></v-spacer>
               <v-btn icon dark @click="dialog = false"><img width="28px" src="../assets/img/icon_close.svg" /></v-btn>
             </v-toolbar>
-            
-            <v-col cols="12" sm="6" style="margin: 20px auto;">
-              <v-row>
-                <v-select
-                  outlined
-                  label="Especie"
-                  v-model="cafe.dsEspecie"
-                  :items="arrEspecie"
-                  item-text="dsEspecie"
-                  item-value="dsEspecie"
-                  :rules="[(v) => !!v || '']"
-                ></v-select>
-              </v-row>
-              <v-row>
-                <v-select
-                  outlined
-                  label="Variedade"
-                  v-model="cafe.dsVariedade"
-                  v-if="cafe.dsEspecie === 'Arábica'"
-                  :items="arrArabica"
-                  item-text="dsVariedade"
-                  item-value="dsVariedade"
-                  :rues="[(v) => !!v || '']"
-                ></v-select>
-                <v-select
-                  outlined
-                  label="Variedade"
-                  v-model="cafe.dsVariedade"
-                  v-else
-                  :items="arrRobuta"
-                  item-text="dsVariedade"
-                  item-value="dsVariedade"
-                  :rues="[(v) => !!v || '']"
-                ></v-select>
-              </v-row>
-              <v-row>
-                <v-checkbox
-                  v-model="cafe.dsEspecial"
-                  label="Especial"
-                  color="#D19700"
-                  hide-details
-                ></v-checkbox>
-              </v-row>
-              <v-row>
-                <v-text-field
-                  v-model="cafe.dsAroma"
-                  label="Aroma"
-                  single-line
-                  outlined
-                ></v-text-field>
-              </v-row>
-              <v-row>
-                <v-text-field
-                  v-model="cafe.dsSabor"
-                  label="Sabor"
-                  single-line
-                  outlined
-                ></v-text-field>
-              </v-row>
-              <v-row>
-                <v-text-field
-                  v-model="cafe.dsAcidez"
-                  label="Acidez"
-                  single-line
-                  outlined
-                ></v-text-field>
-              </v-row>
-              <v-row>
-                <v-btn
-                  elevation="2"
-                  color="#FFB800"
-                  style="margin: 30px auto 20px auto; max-width: 110px; border-radius: 10px;"
-                >
-                  Salvar
-                </v-btn>
-              </v-row>
-            </v-col>
+            <div class="cont-scroll">
+              <v-col cols="12" sm="10" style="margin: 0 auto;">
+                <v-row>
+                  <v-select
+                    outlined
+                    label="Especie"
+                    v-model="cafe.especie"
+                    :items="arrEspecie"
+                    item-text="especie"
+                    item-value="especie"
+                    :rules="[(v) => !!v || '']"
+                  ></v-select>
+                </v-row>
+                <v-row>
+                  <v-select
+                    outlined
+                    label="Variedade"
+                    v-model="cafe.variedade"
+                    v-if="cafe.especie === 'Arábica'"
+                    :items="arrArabica"
+                    item-text="variedade"
+                    item-value="variedade"
+                    :rues="[(v) => !!v || '']"
+                  ></v-select>
+                  <v-select
+                    outlined
+                    label="Variedade"
+                    v-model="cafe.variedade"
+                    v-else
+                    :items="arrRobuta"
+                    item-text="variedade"
+                    item-value="variedade"
+                    :rues="[(v) => !!v || '']"
+                  ></v-select>
+                </v-row>
+                <v-row>
+                  <v-text-field
+                    v-model="cafe.altitude"
+                    label="Altitude"
+                    single-line
+                    outlined
+                  ></v-text-field>
+                </v-row>
+                <v-row>
+                  <v-text-field
+                    v-model="cafe.inseticidas" 
+                    label="Inseticidas"
+                    single-line
+                    outlined
+                  ></v-text-field>
+                </v-row>
+                <v-row>
+                  <v-text-field
+                    v-model="cafe.fertilizantes"
+                    label="Fertilizantes"
+                    single-line
+                    outlined
+                  ></v-text-field>
+                </v-row>
+                <v-row>
+                  <v-checkbox
+                    v-model="cafe.especial"
+                    label="Especial"
+                    color="#D19700"
+                    hide-details
+                  ></v-checkbox>
+                </v-row>
+                <div v-if="cafe.especial == true">
+                  <v-row>
+                    <v-text-field
+                      v-model="cafe.aroma" 
+                      label="Aroma"
+                      single-line
+                      outlined
+                    ></v-text-field>
+                  </v-row>
+                  <v-row>
+                    <v-text-field
+                      v-model="cafe.sabor"
+                      label="Sabor"
+                      single-line
+                      outlined
+                    ></v-text-field>
+                  </v-row>
+                  <v-row>
+                    <v-text-field
+                      v-model="cafe.acidez" 
+                      label="Acidez"
+                      single-line
+                      outlined
+                    ></v-text-field>
+                  </v-row>
+                </div>
+              </v-col>
+            </div>
+            <v-row>
+              <v-btn
+              elevation="2"
+              color="#FFB800"
+              style="margin: 30px auto 20px auto; max-width: 110px; border-radius: 10px;"
+              @click="addCafe()"
+              >
+                Salvar
+              </v-btn>
+            </v-row>
           </v-card>
         </v-dialog>
     <Footer></Footer>
@@ -192,21 +220,29 @@
 }
 #cafe .v-card, .v-card .v-sheet {
   margin: 0 !important;
-  height: 60vh;
+  height: 70vh;
 }
 .v-list {
   margin: 0 !important;
 }
-.v-text-field__details {
-  display: none;
-}
 .v-input {
   margin-top: 10px !important;
+}
+.cont-scroll {
+  min-height: 270px;
+  max-height: 50vh;
+  overflow-y: auto;
+  margin: 0px 5vw;
+  margin-top: 30px !important;
+}
+.v-text-field__details {
+  display: none;
 }
 </style>
 
 <script>
 import Footer from '../components/Footer';
+import Fazenda from '../service/fazenda'
 
 export default {
   name: "Cafe",
@@ -216,11 +252,22 @@ export default {
   data() {
     return {
       dialog: false,
-      cafe: {dsEspecie: '', dsVariedade: ''},
+      cafe: {especie: '', variedade: '', altitude: '', inseticidas: '', fertilizantes: '', especial: false, aroma: '', sabor: '', acidez: ''},
+      testCafe: { especie: 'Arábica', variedade: 'conilon', especial: true, aroma: 'Frutado', sabor: 'laranja', acidez: 'alto', altitude: 'Muito alto',
+      inseticidas: 'Varios', fertilizantes: 'Organicos' },       
       arrEspecie: ["Robusta ou Conilon", "Arábica"],
       arrRobuta: ["Conilon"],
       arrArabica: ["Mundo Novo", "Bourbon", "Laurina", "Catuaí", "Acaiá", "Topázio", "Icatu", "Caturra",],
     };
   },
+  methods: {
+    addCafe() {
+      Fazenda.addCafe(this.cafe).then(resposta => {
+        alert("Salvo com sucesso!", resposta);
+
+        //Fazer o alerta certo
+      })
+    }
+  }
 };
 </script>

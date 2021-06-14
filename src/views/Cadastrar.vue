@@ -9,7 +9,7 @@
                     <v-text-field
                         outlined
                         label="Nome"
-                        v-model="nome" 
+                        v-model="cafeicultor.nome"
                     ></v-text-field>
                 </v-row>
 
@@ -17,7 +17,7 @@
                     <v-text-field
                         outlined
                         label="CPF"
-                        v-model="cpf" 
+                        v-model="cafeicultor.cpf" 
                     ></v-text-field>
                 </v-row>
 
@@ -25,7 +25,7 @@
                     <v-text-field
                         outlined
                         label="Telefone"
-                        v-model="telenone" 
+                        v-model="cafeicultor.telefone"
                     ></v-text-field>
                 </v-row>
 
@@ -33,7 +33,7 @@
                     <v-text-field
                         outlined
                         label="Email"
-                        v-model="email" 
+                        v-model="cafeicultor.email" 
                     ></v-text-field>
                 </v-row>
 
@@ -41,12 +41,12 @@
                     <v-text-field
                         outlined
                         label="Senha"
-                        v-model="senha" 
+                        v-model="cafeicultor.senha" 
                     ></v-text-field>
                 </v-row>
 
                 <v-row class="margin-bot"> 
-                    <v-btn width="100%" color="#FFB800" rounded>
+                    <v-btn @click="cadastrar()" width="100%" color="#FFB800" rounded>
                         Cadastrar
                     </v-btn>
                 </v-row>
@@ -87,6 +87,7 @@
 
 <script>
 import Footer from '../components/Footer';
+import Fazenda from '../service/fazenda'
 
 export default {
   name: "Cadastrar",
@@ -94,7 +95,23 @@ export default {
     Footer,
   },
   data() {
-    return {};
+    return {
+        cafeicultor: {nome: '', cpf: '', telefone: '', email: '', }
+    };
   },
+  mounted() {
+      
+  },
+  methods: {
+        cadastrar() {
+            
+            Fazenda.cadastrarUser(this.cafeicultor).then(resposta => {
+                alert("Salvo com sucesso!", resposta);
+
+                //Fazer o alerta certo para encaminhar para a pag login
+            })
+        }
+  }
+  
 };
 </script>
