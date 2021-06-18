@@ -18,6 +18,10 @@ export default {
         return http.get('sitioFazenda')
     },
 
+    atualizaFazenda:(idFazenda, dados) => {
+        return http.put('sitioFazenda/' + idFazenda, dados)
+    },
+
     addCafe:(cafe) => {
         return http.post('cafe', cafe)
     }

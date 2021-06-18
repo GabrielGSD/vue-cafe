@@ -254,7 +254,7 @@ export default {
       dialog: false,
       cafe: {especie: '', variedade: '', altitude: '', inseticidas: '', fertilizantes: '', especial: false, aroma: '', sabor: '', acidez: ''},
       testCafe: { especie: 'Arábica', variedade: 'conilon', especial: true, aroma: 'Frutado', sabor: 'laranja', acidez: 'alto', altitude: 'Muito alto',
-      inseticidas: 'Varios', fertilizantes: 'Organicos' },       
+      inseticidas: 'Varios', fertilizantes: 'Organicos', "sitio": {"sitioFazendaId":1} },       
       arrEspecie: ["Robusta ou Conilon", "Arábica"],
       arrRobuta: ["Conilon"],
       arrArabica: ["Mundo Novo", "Bourbon", "Laurina", "Catuaí", "Acaiá", "Topázio", "Icatu", "Caturra",],
@@ -262,7 +262,7 @@ export default {
   },
   methods: {
     addCafe() {
-      Fazenda.addCafe(this.cafe).then(resposta => {
+      Fazenda.addCafe(this.testCafe).then(resposta => {
         alert("Salvo com sucesso!", resposta);
 
         //Fazer o alerta certo

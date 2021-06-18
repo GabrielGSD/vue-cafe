@@ -6,19 +6,20 @@
           height="50"
           alt="Logo Shortens Coffe"
         />
+
         <div class="tabs">
-          <router-link to="/">Home</router-link>
-          <router-link to="/fazenda">Fazenda</router-link>
-          <router-link to="/cafe">Café</router-link>
-          <router-link to="/catalogo">Catálogo</router-link>
-          <router-link to="/entrar">Entrar</router-link>
-          <router-link to="/cadastrar">Cadastrar</router-link>
+          <div @click="checkLogged()"><router-link to="/" >Home</router-link></div>
+          <div @click="checkLogged()" v-if="this.isLogged || this.$router.history.current['path'] == '/fazenda'"><router-link to="/fazenda">Fazenda</router-link></div>
+          <div @click="checkLogged()" v-if="this.isLogged || this.$router.history.current['path'] == '/cafe'"><router-link to="/cafe">Café</router-link></div>
+          <div @click="checkLogged()"><router-link to="/catalogo">Catálogo</router-link></div>
+          <div @click="checkLogged()"><router-link to="/entrar">Entrar</router-link></div>
+          <div @click="checkLogged()"><router-link to="/cadastrar">Cadastrar</router-link></div>
         </div>
       </div>
     </div>
 </template>
 
-<style>
+<style scoped>
 #nav {
   background-color: rgba(30, 13, 0);
   height: 70px;
@@ -36,6 +37,11 @@
   justify-content: space-between;
   align-items: center;
 }
+#nav .tabs {
+  display: flex;
+
+}
+
 .tabs a {
   color: white;
   margin-right: 26px;
@@ -46,8 +52,27 @@
 
 <script>
 
+//$router.history.current['path']
+//this.$router.history.current['path']
+
+//Usar o watch
+
 export default {
   name: "Nav",
-  computed: {}
-}
+  computed: {},
+  data() {
+    return {
+        user: {email: '', senha: ''},
+        isLogged: false,
+    };
+  },
+  methods: {
+    checkLogged(){
+      if(localStorage.getItem('isLogged') == 'false')
+        this.isLogged = false
+      else 
+        this.isLogged = true
+    }
+  }
+};
 </script>

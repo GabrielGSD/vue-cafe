@@ -105,11 +105,14 @@ export default {
   methods: {
         cadastrar() {
             
-            Fazenda.cadastrarUser(this.cafeicultor).then(resposta => {
-                alert("Salvo com sucesso!", resposta);
-
-                //Fazer o alerta certo para encaminhar para a pag login
-            })
+            Fazenda.cadastrarUser(this.cafeicultor)
+                .then(resposta => {
+                    alert("Salvo com sucesso!", resposta);
+                    //Fazer o alerta certo para encaminhar para a pag login
+                })
+                .catch(function() {
+                    alert("Erro ao cadastrar usuário!");
+                })
         }
   }
   

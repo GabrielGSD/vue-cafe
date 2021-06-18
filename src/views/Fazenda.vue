@@ -135,6 +135,7 @@
                         </div>
                     </v-col>
                 </v-row>
+                <p>{{this.idFazenda}}  {{hasFazenda}}</p>
                 <v-row>
                     <v-btn
                         elevation="2"
@@ -267,42 +268,98 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 import Fazenda from '../service/fazenda'
 
 export default {
-  name: "Fazenda",
-  components: {
-    Footer,
-    vueDropzone: vue2Dropzone,
-  },
-  data() {
-    return {
-        isActive: {
-            sobre: true, midia: false, local: false, alt: false, cont: false
-        },
-        dropzone: '',
-        fazenda: {
-            cidade: '', cep: '', rua: '', bairro: '', nome: '', sobreHistoria: '', telefone: '', email: '', instagram: '', facebook: '', cafeicultor: {cafeicultorId: ''},
-        },
-        selected: 0,
-        dropzoneOptions: {
-          url: 'https://httpbin.org/post',
-          thumbnailWidth: 150,
-          maxFilesize: 300,
-          headers: { "My-Awesome-Header": "header value" },
-        }
-    };
-  },
+    name: "Fazenda",
+    components: {
+        Footer,
+        vueDropzone: vue2Dropzone,
+    },
+    data() {
+        return {
+            isActive: {
+                sobre: false, midia: false, local: false, alt: false, cont: false
+            },
+            dropzone: '',
+            fazenda: {
+                cidade: '', cep: '', rua: '', bairro: '', nome: '', sobreHistoria: '', telefone: '', email: '', instagram: '', facebook: '', cafeicultor: {cafeicultorId: ''},
+            },
+            selected: 0,
+            idFazenda: null,
+            hasFazenda: false,
+            dropzoneOptions: {
+            url: 'https://httpbin.org/post',
+            thumbnailWidth: 150,
+            maxFilesize: 300,
+            headers: { "My-Awesome-Header": "header value" },
+            }
+        };
+    },
+    mounted() {
+        this.fazenda.cafeicultor.cafeicultorId = localStorage.getItem("idUser");
+        this.atualizaDadosFazenda();
+    },
     methods: {
-        salvar() {
-            var user = localStorage.getItem("idUser");
-
-            this.fazenda.cafeicultor.cafeicultorId = user;
-
-            console.log(this.fazenda)
-            
-            Fazenda.cadastrarFazenda(this.fazenda).then(resposta => {
-                alert("Salvo com sucesso!", resposta);
-
-                //Fazer o alerta certo
+        atualizaDadosFazenda() {
+            Fazenda.listarFazenda(this.fazenda.cafeicultor.cafeicultorId)
+            .then(resposta => {
+                console.log(resposta.data);
+                console.log(resposta.data.length);
+                if(resposta.data.length == 1) {
+                    this.hasFazenda = true;
+                    this.idFazenda = resposta.data[0].sitioFazendaId
+                    this.fazenda.cidade = resposta.data[0].cidade
+                    this.fazenda.cep = resposta.data[0].cep
+                    this.fazenda.rua = resposta.data[0].rua
+                    this.fazenda.bairro = resposta.data[0].bairro
+                    this.fazenda.nome = resposta.data[0].nome
+                    this.fazenda.sobreHistoria = resposta.data[0].sobreHistoria
+                    this.fazenda.telefone = resposta.data[0].telefone
+                    this.fazenda.email = resposta.data[0].email
+                    this.fazenda.instagram = resposta.data[0].instagram
+                    this.fazenda.facebook = resposta.data[0].facebook
+                }
             })
+            .catch(function (error) {
+                console.log(error);
+            })
+        },
+        salvar() {
+            console.log(this.hasFazenda, this.idFazenda)
+
+            if(!this.hasFazenda && this.idFazenda == null) {
+                Fazenda.cadastrarFazenda(this.fazenda)
+                .then(resposta => {
+                    alert("Salvo com sucesso!", resposta);
+                    this.atualizaDadosFazenda();
+                    //Fazer o alerta certo
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+            }
+            else {
+                Fazenda.listarFazenda(this.fazenda.cafeicultor.cafeicultorId)
+                .then(resposta => {
+                    console.log(resposta.data);
+                    if(resposta.data.length == 1) {
+                        this.idFazenda = resposta.data[0].sitioFazendaId
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+
+                Fazenda.atualizaFazenda(this.idFazenda, this.fazenda)
+                .then(resposta => {
+                    alert("Fazenda editada com sucesso!", resposta);
+                    this.atualizaDadosFazenda();
+                    //Fazer o alerta certo
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+            }
+            
+            
         }
     }
 };

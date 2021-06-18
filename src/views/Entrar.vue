@@ -80,14 +80,19 @@ export default {
   },
   methods: {
     login() {  
-        Fazenda.loginUser(this.user.email).then(resposta => {
-            if(resposta.data.email == this.user.email && resposta.data.senha == this.user.senha) {
-                localStorage.setItem("isLogged", true);
-                localStorage.setItem("idUser", resposta.data.cafeicultorId);
-                this.getData();
-                alert("Logado com sucesso")
-            }
-        }) 
+        Fazenda.loginUser(this.user.email)
+            .then(resposta => {
+                if(resposta.data.email == this.user.email && resposta.data.senha == this.user.senha) {
+                    localStorage.setItem("isLogged", true);
+                    localStorage.setItem("idUser", resposta.data.cafeicultorId);
+                    this.$isLogged = 'asdas';
+                    console.log(this.$isLogged);
+                    alert("Logado com sucesso")
+                }
+            }) 
+            .catch(function() {
+                alert("Erro ao efetuar login!")
+            })
     },
     getData() {
         Fazenda.listarFazenda().then(resposta => {

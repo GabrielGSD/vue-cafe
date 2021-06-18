@@ -5,6 +5,7 @@ import './css/style.css'
 import router from './router'
 
 Vue.prototype.$api = "http://localhost:7888/coffee/api/coffee"
+Vue.prototype.$isLogged = 'HERE';
 
 new Vue({
   vuetify,

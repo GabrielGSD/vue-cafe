@@ -209,5 +209,8 @@ export default {
       dialog: false,
     };
   },
+  mounted() {
+    localStorage.setItem("isLogged", false);
+  }
 };
 </script>
