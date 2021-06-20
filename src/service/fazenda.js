@@ -14,8 +14,16 @@ export default {
         return http.post('sitioFazenda', dados)
     },
 
-    listarFazenda:() => {
-        return http.get('sitioFazenda')
+    listarFazendaCafeicultor:(idUser) => {
+        return http.get('sitioFazenda/cafeicultor/'+idUser)
+    },
+
+    listarFazenda:(idUser) => {
+        return http.get('sitioFazenda/'+idUser)
+    },
+
+    listarFazendas:() => {
+        return http.get('sitioFazenda/')
     },
 
     atualizaFazenda:(idFazenda, dados) => {
@@ -24,6 +32,18 @@ export default {
 
     addCafe:(cafe) => {
         return http.post('cafe', cafe)
-    }
+    },
+
+    listarCafe:() => {
+        return http.get('cafe')
+    },
+
+    atualizaCafe:(idCafe, dados) => {
+        return http.put('cafe/' + idCafe, dados)
+    },
+
+    deleteCafe:(idCafe) => {
+        return http.delete('cafe/' + idCafe)
+    },
 
 }

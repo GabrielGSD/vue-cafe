@@ -9,8 +9,8 @@
 
         <div class="tabs">
           <div @click="checkLogged()"><router-link to="/" >Home</router-link></div>
-          <div @click="checkLogged()" v-if="this.isLogged || this.$router.history.current['path'] == '/fazenda'"><router-link to="/fazenda">Fazenda</router-link></div>
-          <div @click="checkLogged()" v-if="this.isLogged || this.$router.history.current['path'] == '/cafe'"><router-link to="/cafe">Café</router-link></div>
+          <div @click="checkLogged()"><router-link to="/fazenda">Fazenda</router-link></div>
+          <div @click="checkLogged()"><router-link to="/cafe">Café</router-link></div>
           <div @click="checkLogged()"><router-link to="/catalogo">Catálogo</router-link></div>
           <div @click="checkLogged()"><router-link to="/entrar">Entrar</router-link></div>
           <div @click="checkLogged()"><router-link to="/cadastrar">Cadastrar</router-link></div>
@@ -28,7 +28,7 @@
   align-items: center;
   font-family: "Roboto", sans-serif;
   position: absolute;
-  z-index: 9999;
+  z-index: 999;
 }
 .content {
   width: 85%;

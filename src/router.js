@@ -37,6 +37,11 @@ export default new Router({
       name: 'catalogo',
       component: () => import('./views/Catalogo.vue')
     },
+    {
+      path: '/sobreFazenda',
+      name: 'sobre Fazenda',
+      component: () => import('./views/SobreFazenda.vue')
+    },
     
   ]
 })

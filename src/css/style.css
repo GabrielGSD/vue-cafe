@@ -46,8 +46,8 @@
     max-width: 336px;
 }
 
-.v-text-field__details {
-    display: none;
+.v-snack__content {
+    font-weight: bold;
 }
 
 legend {
@@ -69,6 +69,10 @@ legend {
 
 .margin-bot {
     margin-bottom: 20px;
+}
+
+#cafe .v-text-field__details {
+    display: none;
 }
 
 .txt-btn {

@@ -8,7 +8,7 @@
             elevation="2" 
             color="#FFB800" 
             style="border-radius: 10px; margin: 45px 50px 0px 0;"
-            @click="dialog = true"
+            @click="limparCampos(), dialog = true"
           >
             Adicionar café
           </v-btn>
@@ -16,8 +16,8 @@
 
         <v-row class="container-scroll">
           <v-col 
-            v-for="i in 5"
-            :key="i"
+            v-for="(i) in this.arrCafesFilter"
+            :key="i.cafeId"
             style="max-width: 210px; max-height: 255px;"
             cols="10"
             sm="4"
@@ -33,16 +33,16 @@
                   style="padding: 0.8em;"
                 >
                   <v-col class="center" style="height: 20vh; margin-top: 30px; padding: 0;">
-                    <h1 class="especie" >Arábica</h1>
-                    <h3 class="variedade">Mundo Novo</h3>
+                    <h1 class="especie" >{{i.especie}}</h1>
+                    <h3 class="variedade">{{i.variedade}}</h3>
                 
                     <div style="display: flex; flex-direction: column; justify-content: center; margin: 40px;">
-                      <v-btn text small color="transparent">
+                      <v-btn text small color="transparent" @click="openEdit(i)">
                           <img src="../assets/img/editar.svg" width="20" style="margin-right: 10px;" alt="icone editar">
                           <h1 class="text-btn">Editar</h1> 
                       </v-btn>
 
-                      <v-btn text small color="transparent">
+                      <v-btn text small color="transparent" @click="deleteCafe(i)">
                           <img src="../assets/img/deletar.svg" width="20" style="margin-right: 10px;" alt="icone deletar">
                           <h1 class="text-btn">Deletar</h1> 
                       </v-btn>
@@ -109,6 +109,7 @@
                   <v-text-field
                     v-model="cafe.altitude"
                     label="Altitude"
+                    suffix="m"
                     single-line
                     outlined
                   ></v-text-field>
@@ -228,6 +229,7 @@
 .v-input {
   margin-top: 10px !important;
 }
+
 .cont-scroll {
   min-height: 270px;
   max-height: 50vh;
@@ -252,22 +254,111 @@ export default {
   data() {
     return {
       dialog: false,
-      cafe: {especie: '', variedade: '', altitude: '', inseticidas: '', fertilizantes: '', especial: false, aroma: '', sabor: '', acidez: ''},
+      cafe: {especie: '', variedade: '', altitude: '', inseticidas: '', fertilizantes: '', especial: false, aroma: '', sabor: '', acidez: '', sitio: {sitioFazendaId:null}},
       testCafe: { especie: 'Arábica', variedade: 'conilon', especial: true, aroma: 'Frutado', sabor: 'laranja', acidez: 'alto', altitude: 'Muito alto',
-      inseticidas: 'Varios', fertilizantes: 'Organicos', "sitio": {"sitioFazendaId":1} },       
-      arrEspecie: ["Robusta ou Conilon", "Arábica"],
+      inseticidas: 'Varios', fertilizantes: 'Organicos', sitio: {sitioFazendaId:5} },       
+      arrEspecie: ["Conilon", "Arábica"],
       arrRobuta: ["Conilon"],
       arrArabica: ["Mundo Novo", "Bourbon", "Laurina", "Catuaí", "Acaiá", "Topázio", "Icatu", "Caturra",],
+      arrCafes: [],
+      arrCafesFilter: [],
+      fazendaId: null,
+      editIsOpen: false,
+      editCafeId: null,
     };
   },
+  mounted() {
+    this.getCafe()
+  },
   methods: {
-    addCafe() {
-      Fazenda.addCafe(this.testCafe).then(resposta => {
-        alert("Salvo com sucesso!", resposta);
-
-        //Fazer o alerta certo
+    async addCafe() {
+      if(!this.editIsOpen) {
+        await Fazenda.listarFazendaCafeicultor(this.getUser())
+          .then(resposta => {
+            if(resposta.data != '') {
+              this.cafe.sitio.sitioFazendaId = resposta.data.sitioFazendaId
+              Fazenda.addCafe(this.cafe).then(resposta => {
+                alert("Salvo com sucesso!", resposta);
+                this.dialog = false
+                document.location.reload(true)
+                //Fazer o alerta certo
+              })
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      }
+      else {
+        this.putCafe(this.cafe)
+      }
+    },
+    getUser(){
+      const user = JSON.parse(localStorage.getItem("idUser"))
+      return user
+    },
+    limparCampos(){ 
+      for(var item in this.cafe) {
+        if(item != 'sitio')
+          this.cafe[item] = ''
+      }
+    },
+    async getCafe(){
+      await Fazenda.listarCafe()
+      .then(resposta => {
+        this.arrCafes = resposta.data
+        this.search()
       })
-    }
+      .catch(function (error) {
+        console.log(error);
+      })
+    },
+    async search() {
+      await Fazenda.listarFazendaCafeicultor(this.getUser())
+        .then(resposta => {
+          this.fazendaId = resposta.data.sitioFazendaId
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+
+        for(var item in this.arrCafes) {
+          if(this.arrCafes[item].sitio.sitioFazendaId == this.fazendaId)
+            this.arrCafesFilter.push(this.arrCafes[item])
+        }
+    },
+    openEdit(cafe){
+      this.dialog = true
+      this.editIsOpen = true
+      this.editCafeId = cafe.cafeId
+      for(var item in this.cafe){
+        this.cafe[item] = cafe[item]
+          
+      }
+    },
+    putCafe(cafe){
+
+      cafe["cafeId"] = this.editCafeId
+      Fazenda.atualizaCafe(this.editCafeId, cafe)
+        .then(() => {
+          this.dialog = false
+          alert("Café editado com sucesso!")
+          document.location.reload(true)
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
+    deleteCafe(cafe){
+      Fazenda.deleteCafe(cafe.cafeId)
+        .then(() => {
+          alert("Café deletado com sucesso!")
+          document.location.reload(true)
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
   }
 };
 </script>

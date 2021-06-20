@@ -20,8 +20,8 @@
 
         <v-row class="container-scroll">
           <v-col 
-            v-for="i in 5"
-            :key="i"
+            v-for="i in this.arrFazenda"
+            :key="i.idFazenda"
             style="max-width: 270px; max-height: 370px;"
             cols="10"
             sm="4"
@@ -38,21 +38,12 @@
                 >
                   <img style="height: 165px; width: 18.4vw; max-width: 248px; border-radius: 5px;" src="../assets/img/fazenda-ex.jpg" alt="Foto da fazenda">
                   <v-col>
-                    <h1 style="font-size: 14px;">Fazenda São Sebastião</h1>
-                    <v-rating
-                      v-model="rating"
-                      color="#FFB800"
-                      background-color="#FFB800"
-                      empty-icon="$ratingEmpty"
-                      half-increments
-                      hover
-                      large
-                    ></v-rating>
+                    <h1 style="font-size: 18px; margin-bottom: 10px">{{i.nome}}</h1>
                     <v-row style="margin: 0 auto;">
                       <v-chip v-for="i in 3" :key="i">Arábica {{ i }}</v-chip>
                     </v-row>
                     <v-row style="justify-content: flex-end; margin-right: 5px">
-                      <v-btn small color="#FFB800">
+                      <v-btn small color="#FFB800" @click="fazendaSelected(i)">
                         Ver mais
                       </v-btn>
                     </v-row>
@@ -115,6 +106,7 @@
 
 <script>
 import Footer from '../components/Footer';
+import Fazenda from '../service/fazenda'
 
 export default {
   name: "Catalogo",
@@ -123,8 +115,38 @@ export default {
   },
   data() {
     return {
-      rating: 4.5,
+      dialogFazenda: false,
+      arrFazenda: {},
+      arrCafes: {},
     };
   },
+  mounted() {
+    this.listarFazendas()
+  },
+  methods: {
+    listarFazendas() {
+      Fazenda.listarFazendas()
+        .then(resposta => {      
+          this.arrFazenda = resposta.data
+          
+        })
+        .catch(function (error) {
+          console.log(error);
+       })
+    },
+    getCafe(idFazenda){
+      Fazenda.listarCafe()
+        .then(resposta => {
+          console.log(resposta, idFazenda)
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
+    fazendaSelected(fazendaSelected) {
+      localStorage.setItem("fazendaSelected", JSON.stringify(fazendaSelected))
+      this.$router.push('/sobreFazenda')
+    }
+  }
 };
 </script>
