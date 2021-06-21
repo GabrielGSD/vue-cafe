@@ -3,7 +3,18 @@
     <div class="banner-sobre">
       <div class="boxFazenda">
         <div class="titleSobreFazenda"><h1>{{fazenda.nome}}</h1></div>
-        <v-row><img src="../assets/img/fazenda-ex.jpg" style="width: 23vw; border-radius: 25px; margin: 40px auto; margin-top: 90px" alt="Foto da fazenda"></v-row>
+        <v-carousel
+          hide-delimiter-background
+          :show-arrows="true"
+        >
+          <v-carousel-item
+            v-for="(item, i) in JSON.parse(fazenda.fotosVideos)"
+            :key="i"
+            :src="item.src"
+          >
+            
+          </v-carousel-item>
+        </v-carousel>
       </div>
     </div>
 
@@ -11,20 +22,27 @@
       <div class="titleSobreFazenda">
         <h1>História</h1>
       </div>
-      <p>A ideia da plataforma surgiu durante um trabalho da disciplina de Conceitos e Tecnologias para Dispositivos Conectados	do curso de Engenharia da Computação na faculdade Inatel. Tanto o integrante Gabriel de Souza quanto o Moises Delmoro, possuem familiares produtores de café, com isso, se viu a necessidade da criação de uma plataforma para facilitar a comercialização do fruto de maneira rápida, ágil e fácil.</p>
+      <p>{{fazenda.sobreHistoria}}</p>
     </div>
 
-    <div class="info-fazenda boxFazenda">
+    <div class="info-fazenda boxFazenda" v-if="this.arrCafesFilter.length > 0">
       <div class="titleSobreFazenda">
         <h1>Café</h1>
       </div>
       <div class="table">
+        <div class="next" @click="nextCafe()" v-if="this.arrCafesFilter.length > 1 && this.select < this.arrCafesFilter.length-1">
+          <img src="../assets/img/arrowCafe.svg" alt="Icone próximo">
+        </div>
+        <div class="prev" @click="beforeCafe()" v-if="this.arrCafesFilter.length > 1 && this.select >= this.arrCafesFilter.length-1">
+          <img src="../assets/img/arrowCafe.svg" alt="Icone anterior" style="transform: scaleX(-1);">
+        </div>
+
         <v-row class="line-bottom">
           <v-col cols="12" md="4">
             <p class="title">Origem:</p>
           </v-col>
           <v-col>
-            <p>Montanhas do Espirito Santo</p>
+            <p>{{this.arrCafesFilter[this.select].sitio.cidade}}</p>
           </v-col>
         </v-row>
 
@@ -33,7 +51,7 @@
             <p class="title">Espécie:</p>
           </v-col>
           <v-col>
-            <p>Arábica</p>
+            <p>{{this.arrCafesFilter[this.select].especie}}</p>
           </v-col>
         </v-row>
 
@@ -42,7 +60,7 @@
             <p class="title">Variedade:</p>
           </v-col>
           <v-col>
-            <p>Conilon</p>
+            <p>{{this.arrCafesFilter[this.select].variedade}}</p>
           </v-col>
         </v-row>
 
@@ -51,7 +69,7 @@
             <p class="title">Altitude:</p>
           </v-col>
           <v-col>
-            <p>1300 m</p>
+            <p>{{this.arrCafesFilter[this.select].altitude}} m</p>
           </v-col>
         </v-row>
 
@@ -60,7 +78,7 @@
             <p class="title">Fertilizantes:</p>
           </v-col>
           <v-col>
-            <p>Natural</p>
+            <p>{{this.arrCafesFilter[this.select].fertilizantes}}</p>
           </v-col>
         </v-row>
 
@@ -69,7 +87,7 @@
             <p class="title">Inseticidas:</p>
           </v-col>
           <v-col>
-            <p>Nenhum</p>
+            <p>{{this.arrCafesFilter[this.select].inseticidas}}</p>
           </v-col>
         </v-row>
 
@@ -78,7 +96,7 @@
             <p class="title">Aroma:</p>
           </v-col>
           <v-col>
-            <p>Frutado</p>
+            <p>{{this.arrCafesFilter[this.select].aroma}}</p>
           </v-col>
         </v-row>
 
@@ -87,7 +105,7 @@
             <p class="title">Sabor:</p>
           </v-col>
           <v-col>
-            <p>Frutas vermelhas</p>
+            <p>{{this.arrCafesFilter[this.select].sabor}}</p>
           </v-col>
         </v-row>
 
@@ -96,7 +114,7 @@
             <p class="title">Acidez:</p>
           </v-col>
           <v-col>
-            <p>35%</p>
+            <p>{{this.arrCafesFilter[this.select].acidez}}</p>
           </v-col>
         </v-row>
       </div>
@@ -118,11 +136,11 @@
       </v-row>
 
       <v-row style="height: 35px; margin-top: 20px; justify-content: center;" v-if="fazenda.facebook != null || fazenda.instagram != null">
-        <v-col cols="12" md="4" class="contato" @click="openLink(fazenda.facebook)" v-if="fazenda.facebook != null">
+        <v-col cols="12" md="4" class="contato" @click="openLink(fazenda.facebook)" v-if="fazenda.facebook != null" style="cursor: pointer;">
           <img src="../assets/img/facebook.svg" alt="Icone Facebook">
           <p>Facebook</p>
         </v-col>
-        <v-col cols="12" md="4" class="contato" @click="openLink(fazenda.instagram)" v-if="fazenda.instagram != null">
+        <v-col cols="12" md="4" class="contato" @click="openLink(fazenda.instagram)" v-if="fazenda.instagram != null" style="cursor: pointer;">
           <img src="../assets/img/instagram.svg" alt="Icone Instagram">
           <p>Instagram</p>
         </v-col>
@@ -163,6 +181,16 @@
 
 
 <style>
+.v-window__next{ 
+  right: 0;
+}
+.v-carousel {
+  width: 500px;
+  border-radius: 30px;
+  margin: 0 auto;
+  margin-top: 70px;
+  margin-bottom: 30px;
+}
 .local {
   width: 55px !important;
   font-weight: bold;
@@ -185,6 +213,19 @@
   margin: 0 auto;
   margin-top: 60px;
   margin-bottom: 30px;
+  position: relative;
+}
+.table .next {
+  display: inline-block;
+  position: absolute;
+  right: -70px;
+  top: 40%;
+}
+.table .prev {
+  display: inline-block;
+  position: absolute;
+  left: -70px;
+  top: 40%;
 }
 .table p {
   margin: 0 !important;
@@ -194,7 +235,7 @@
   margin-left: 10px !important;
 }
 .banner-sobre {
-  height: 63vh;
+  height: 75vh;
   display: flex;
   align-items: flex-end;
 }
@@ -259,6 +300,7 @@
 
 <script>
 import Footer from '../components/Footer';
+import Fazenda from '../service/fazenda'
 
 export default {
   name: "Catalogo",
@@ -268,16 +310,47 @@ export default {
   data() {
     return {
       fazenda: {},
+      arrCafes: {},
+      arrCafesFilter: [],
+      select: 0,
     };
   },
   mounted() {
       this.fazenda = JSON.parse(localStorage.getItem("fazendaSelected"))
-      console.log(this.fazenda)
+      this.getCafe()
   },
   methods: {
       openLink(link) {
         window.open(link);
-      }
+      },
+      nextCafe(){
+        if(this.select <= this.arrCafesFilter.length-1){
+          this.select++
+        }
+      },
+      beforeCafe(){
+        if(this.select >= this.arrCafesFilter.length-1){
+          this.select--
+        }
+      },
+      async getCafe(){
+        await Fazenda.listarCafe()
+        .then(resposta => {
+          this.arrCafes = resposta.data
+          this.search()
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+      },
+      search() {
+        
+        for(var item in this.arrCafes) {
+          if(this.arrCafes[item].sitio.sitioFazendaId == this.fazenda.sitioFazendaId){
+            this.arrCafesFilter.push(this.arrCafes[item])
+          }
+        }
+      },
   }
 };
 </script>

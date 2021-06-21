@@ -14,13 +14,16 @@
               label="Pesquisar"
               append-icon="mdi-magnify"
               class="pesquisar"
+              v-model="filtro"
+              clearable
+              v-on:input="search()"
             ></v-text-field>
           </v-col>
         </v-row>
 
         <v-row class="container-scroll">
           <v-col 
-            v-for="i in this.arrFazenda"
+            v-for="i in this.arrFazendaFiltrada"
             :key="i.idFazenda"
             style="max-width: 270px; max-height: 370px;"
             cols="10"
@@ -36,11 +39,11 @@
                   column
                   style="padding: 0.8em; padding-top: 0; position: relative;"
                 >
-                  <img style="height: 165px; width: 18.4vw; max-width: 248px; border-radius: 5px;" src="../assets/img/fazenda-ex.jpg" alt="Foto da fazenda">
+                  <img style="height: 165px; width: 18.4vw; max-width: 248px; border-radius: 5px;" :src="getImage(i.fotosVideos)" alt="Foto da fazenda">
                   <v-col>
                     <h1 style="font-size: 18px; margin-bottom: 10px">{{i.nome}}</h1>
                     <v-row style="margin: 0 auto;">
-                      <v-chip v-for="i in 3" :key="i">Arábica {{ i }}</v-chip>
+                      <v-chip v-for="(j, index) in JSON.parse(i.tag)" :key="j+index"><span v-if="j != ''">{{j}}</span></v-chip>
                     </v-row>
                     <v-row style="justify-content: flex-end; margin-right: 5px">
                       <v-btn small color="#FFB800" @click="fazendaSelected(i)">
@@ -118,17 +121,25 @@ export default {
       dialogFazenda: false,
       arrFazenda: {},
       arrCafes: {},
+      filtro: '',
+      arrFazendaFiltrada: [],
     };
   },
   mounted() {
     this.listarFazendas()
   },
   methods: {
+    getImage(img){
+      const imagem = JSON.parse(img)
+      return imagem[0].src
+    },
     listarFazendas() {
       Fazenda.listarFazendas()
         .then(resposta => {      
           this.arrFazenda = resposta.data
           
+        console.log(this.arrFazenda)
+          this.search()
         })
         .catch(function (error) {
           console.log(error);
@@ -146,7 +157,14 @@ export default {
     fazendaSelected(fazendaSelected) {
       localStorage.setItem("fazendaSelected", JSON.stringify(fazendaSelected))
       this.$router.push('/sobreFazenda')
-    }
+    },
+    search(){
+      if(this.filtro != null){
+        this.arrFazendaFiltrada = this.arrFazenda.filter((item) => (item.nome.toUpperCase().indexOf(this.filtro.toUpperCase()) > -1));  
+      }
+      else 
+        this.arrFazendaFiltrada = this.arrFazenda;
+    },
   }
 };
 </script>

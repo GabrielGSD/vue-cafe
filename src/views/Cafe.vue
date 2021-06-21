@@ -178,6 +178,25 @@
             </v-row>
           </v-card>
         </v-dialog>
+
+        <v-snackbar
+          v-model="snackbar"
+          :timeout="timeout"
+          :color="alert"
+        >
+          {{ text }}
+
+          <template v-slot:action="{ attrs }">
+            <v-btn
+              color="blue"
+              text
+              v-bind="attrs"
+              @click="snackbar = false"
+            >
+              Close
+            </v-btn>
+          </template>
+        </v-snackbar>
     <Footer></Footer>
   </div>
 </template>
@@ -265,6 +284,12 @@ export default {
       fazendaId: null,
       editIsOpen: false,
       editCafeId: null,
+      fazenda: {},
+      tag: {especie: '', variedade: '', especial: ''},
+      snackbar: false,
+      alert: '#4caf50',
+      text: '',
+      timeout: 2000,
     };
   },
   mounted() {
@@ -277,16 +302,15 @@ export default {
           .then(resposta => {
             if(resposta.data != '') {
               this.cafe.sitio.sitioFazendaId = resposta.data.sitioFazendaId
-              Fazenda.addCafe(this.cafe).then(resposta => {
-                alert("Salvo com sucesso!", resposta);
+              Fazenda.addCafe(this.cafe).then(() => {
+                this.putFazenda(this.cafe)
                 this.dialog = false
-                document.location.reload(true)
-                //Fazer o alerta certo
+                this.success("Café adicionado com sucesso!")
               })
             }
           })
-          .catch(function (error) {
-            console.log(error);
+          .catch(function () {
+            this.error("Erro ao adicionar café!")
           })
       }
       else {
@@ -337,27 +361,71 @@ export default {
       }
     },
     putCafe(cafe){
-
       cafe["cafeId"] = this.editCafeId
       Fazenda.atualizaCafe(this.editCafeId, cafe)
         .then(() => {
           this.dialog = false
-          alert("Café editado com sucesso!")
+          this.success("Café editado com sucesso!")
           document.location.reload(true)
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch(function () {
+          this.error("Erro ao alterar dados!")
         })
     },
     deleteCafe(cafe){
       Fazenda.deleteCafe(cafe.cafeId)
         .then(() => {
-          alert("Café deletado com sucesso!")
+          this.success("Café deletado com sucesso!")
           document.location.reload(true)
+        })
+        .catch(function () {
+          this.success("Erro ao deletar café!")
+        })
+    },
+    async putFazenda(cafe) {
+      this.fazenda = JSON.parse(localStorage.getItem("fazenda"))
+      
+      await Fazenda.listarFazenda( this.fazenda.sitioFazendaId)
+        .then(resposta => {
+          if(resposta.data != '') {
+            this.fazenda = resposta.data
+
+            if(this.fazenda.tag == null || this.fazenda.tag == '') {
+              this.tag.especie = cafe.especie
+              this.tag.variedade = cafe.variedade
+              if(cafe.especial == true) {
+                this.tag.especial = "especial"
+              }
+              else {
+                this.tag.especial = "Normal"
+              }
+              this.fazenda.tag = JSON.stringify(this.tag);
+            }
+
+            Fazenda.atualizaFazenda(this.fazenda.sitioFazendaId, this.fazenda)
+              .then(() => {
+                document.location.reload(true)
+              })
+              .catch(function (error) {
+                console.log(error);
+              })
+           
+          }
         })
         .catch(function (error) {
           console.log(error);
-        })
+        }) 
+    },
+    success(text) {
+        this.text = text
+        this.alert = '#4caf50'
+        this.snackbar = true;
+            
+    },
+    error(text) {
+        this.text = text
+        this.alert = '#ff5252'
+        this.snackbar = true;   
     },
   }
 };

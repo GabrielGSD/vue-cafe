@@ -9,6 +9,9 @@
                     <v-text-field
                         outlined
                         label="Email"
+                        type="email"
+                        required
+                        :rules="[requiredRules, emailRules]"
                         v-model="user.email" 
                     ></v-text-field>
                 </v-row>
@@ -17,6 +20,11 @@
                     <v-text-field
                         outlined
                         label="Senha"
+                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                        :rules="[requiredRules]"
+                        required
+                        :type="show1 ? 'text' : 'password'"
+                        @click:append="show1 = !show1"
                         v-model="user.senha" 
                     ></v-text-field>
                 </v-row>
@@ -36,6 +44,25 @@
             </v-col>
         </v-sheet>
     </v-col>
+
+    <v-snackbar
+        v-model="snackbar"
+        :timeout="timeout"
+        :color="alert"
+    >
+        {{ text }}
+
+        <template v-slot:action="{ attrs }">
+            <v-btn
+                color="blue"
+                text
+                v-bind="attrs"
+                @click="snackbar = false"
+            >
+                Close
+            </v-btn>
+        </template>
+    </v-snackbar>
 
     <Footer></Footer>
   </div>
@@ -75,29 +102,52 @@ export default {
   },
   data() {
     return {
-        user: {email: '', senha: ''}
+        user: {email: '', senha: ''},
+        requiredRules: value => !!value || 'Obrigatório.',
+        emailRules: v => /.+@.+/.test(v) || 'Entre com um e-mail válido',
+        show1: false,
+        snackbar: false,
+        alert: '#4caf50',
+        text: '',
+        timeout: 1500,
     };
   },
   methods: {
     login() {  
-        Fazenda.loginUser(this.user.email)
+        if(this.user.email != '' && this.user.senha != '') {
+            Fazenda.loginUser(this.user.email)
             .then(resposta => {
                 if(resposta.data.email == this.user.email && resposta.data.senha == this.user.senha) {
+                    localStorage.setItem("teste", false)
                     localStorage.setItem("isLogged", true);
                     localStorage.setItem("idUser", resposta.data.cafeicultorId);
-                    this.$isLogged = 'asdas';
-                    console.log(this.$isLogged);
-                    alert("Logado com sucesso")
+                    this.success()
                 }
             }) 
             .catch(function() {
-                alert("Erro ao efetuar login!")
+                this.error("Preencha todos os campos para realizar o login!")
             })
+        }
+        else {
+            this.error("Erro ao realizar login!");
+        }
     },
     getData() {
         Fazenda.listarFazenda().then(resposta => {
             localStorage.setItem("dados", resposta);
         })
+    },
+    success() {
+        this.text = "Login efetuado com sucesso!"
+        this.alert = '#4caf50'
+        this.snackbar = true;
+        setTimeout(() => { this.$router.push('/fazenda') }, this.timeout);
+            
+    },
+    error(text) {
+        this.text = text
+        this.alert = '#ff5252'
+        this.snackbar = true;   
     },
   }
 };

@@ -9,8 +9,8 @@
 
         <div class="tabs">
           <div @click="checkLogged()"><router-link to="/" >Home</router-link></div>
-          <div @click="checkLogged()"><router-link to="/fazenda">Fazenda</router-link></div>
-          <div @click="checkLogged()"><router-link to="/cafe">Café</router-link></div>
+          <div v-if="isLogged"><router-link to="/fazenda">Fazenda</router-link></div>
+          <div v-if="isLogged"><router-link to="/cafe">Café</router-link></div>
           <div @click="checkLogged()"><router-link to="/catalogo">Catálogo</router-link></div>
           <div @click="checkLogged()"><router-link to="/entrar">Entrar</router-link></div>
           <div @click="checkLogged()"><router-link to="/cadastrar">Cadastrar</router-link></div>
@@ -65,6 +65,10 @@ export default {
         user: {email: '', senha: ''},
         isLogged: false,
     };
+  },
+  mounted() {
+    this.isLogged = localStorage.getItem("isLogged")
+    this.checkLogged()
   },
   methods: {
     checkLogged(){

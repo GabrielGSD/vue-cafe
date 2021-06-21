@@ -58,7 +58,7 @@
                                 </vue-dropzone>
 
                                 <div v-if="images.length > 0" class="img-show">
-                                    <div v-for="image in images" :key="image.src">
+                                    <div v-for="(image) in images" :key="image.src" style="position: relative">
                                         <img :src="image.src" alt="">
                                     </div>
                                 </div>
@@ -81,7 +81,9 @@
                                     <h1>CEP</h1>
                                     <v-text-field
                                         outlined
-                                         v-model="fazenda.cep"
+                                        v-model="fazenda.cep"
+                                        type="cep" 
+                                        v-mask="mask.cep"
                                     ></v-text-field>
                                 </v-row>
                                 <v-row style="display: flex; flex-direction: column;">
@@ -112,6 +114,8 @@
                                     <h1>Telefone</h1>
                                     <v-text-field
                                         outlined
+                                        placeholder="Entre com seu telefone"
+                                        v-mask="mask.telefone"
                                         v-model="fazenda.telefone" 
                                     ></v-text-field>
                                 </v-row>
@@ -119,6 +123,7 @@
                                     <h1>Email</h1>
                                     <v-text-field
                                         outlined
+                                        placeholder="Entre com seu e-mail"
                                         v-model="fazenda.email"
                                     ></v-text-field>
                                 </v-row>
@@ -126,6 +131,7 @@
                                     <h1>Instagram</h1>
                                     <v-text-field
                                         outlined
+                                        placeholder="Entre com o link do seu instagram"
                                         v-model="fazenda.instagram"
                                     ></v-text-field>
                                 </v-row>
@@ -133,6 +139,7 @@
                                     <h1>Facebook</h1>
                                     <v-text-field
                                         outlined
+                                        placeholder="Entre com o link do seu Facebook"
                                         v-model="fazenda.facebook"
                                     ></v-text-field>
                                 </v-row>
@@ -153,6 +160,25 @@
             </v-card-text>
       </v-sheet>
     </div>
+
+    <v-snackbar
+        v-model="snackbar"
+        :timeout="timeout"
+        :color="alert"
+    >
+        {{ text }}
+
+        <template v-slot:action="{ attrs }">
+            <v-btn
+                color="blue"
+                text
+                v-bind="attrs"
+                @click="snackbar = false"
+            >
+                Close
+            </v-btn>
+        </template>
+    </v-snackbar>
 
     <Footer></Footer>
   </div>
@@ -271,11 +297,22 @@
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
+    position: relative;
 }
 
 .img-show img {
+    margin: 0 auto;
     margin-top: 35px;
+    margin-right: 30px;
     width: 250px;
+    max-height: 300px;
+    border-radius: 20px;
+}
+
+.delImg {
+    position: absolute;
+    top: 45px;
+    right: 45px;
 }
 
 .v-text-field__details {
@@ -321,6 +358,7 @@ export default {
                 instagram: null,
                 cafeicultor: {cafeicultorId: 1}
             },
+            mask: {cep: '##.###-###', telefone: "(##) # ####-####"},
             selected: 0,
             idFazenda: null,
             hasntFazenda: false,
@@ -329,10 +367,13 @@ export default {
                 url: "https://httpbin.org/post",
                 thumbnailWidth: 200,
                 thumbnailHeight: 250,
-                maxFilesize: 500,
                 addRemoveLinks: false,
                 acceptedFiles: ".jpg, .jpeg, .png"
             },
+            snackbar: false,
+            alert: '#4caf50',
+            text: '',
+            timeout: 2000,
         };
     },
     mounted() {
@@ -358,8 +399,12 @@ export default {
 
                 this.$refs.imgDropzone.removeFile(file);
             } catch (error) {
-                console.log(error);
+                this.error("Erro ao enviar imagem!")
             }
+        },
+        removeImg(arrImg, index){
+            arrImg = arrImg.splice(index, 1)
+            this.images = arrImg
         },
         atualizaDadosFazenda() {
             Fazenda.listarFazendaCafeicultor(this.fazenda.cafeicultor.cafeicultorId)
@@ -384,7 +429,6 @@ export default {
                     this.fazenda.fotosVideos = resposta.data.fotosVideos
                     this.images = JSON.parse(resposta.data.fotosVideos)
                     localStorage.setItem("fazenda", JSON.stringify(resposta.data))
-                    console.log(this.images)
             })
             .catch(function (error) {
                 console.log(error);
@@ -392,15 +436,15 @@ export default {
         },
         salvar() {
             this.fazenda.fotosVideos = JSON.stringify(this.images)
+            
             if(this.hasntFazenda) {
                 Fazenda.cadastrarFazenda(this.fazenda)
-                .then(resposta => {
-                    alert("Salvo com sucesso!", resposta);
+                .then(() => {
                     this.atualizaDadosFazenda();
-                    //Fazer o alerta certo
+                    this.success("Dados salvo com sucesso!")
                 })
-                .catch(function (error) {
-                    console.log(error);
+                .catch(function () {
+                    this.error("Erro ao salvar a fazenda!")
                 })
             }
             else {
@@ -414,20 +458,30 @@ export default {
                         this.fazenda['sitioFazendaId'] = resposta.data.sitioFazendaId
 
                         Fazenda.atualizaFazenda(this.fazenda.sitioFazendaId, this.fazenda)
-                        .then(resposta => {
-                            alert("Fazenda editada com sucesso!", resposta);
+                        .then(() => {
+                            this.success("Dados editados com sucesso!")
                             this.atualizaDadosFazenda();
                             //Fazer o alerta certo
                         })
-                        .catch(function (error) {
-                            console.log(error);
+                        .catch(function () {
+                            this.error("Erro ao atualizar dados!");
                         })
                     }
                 })
                 .catch(function (error) {
                     console.log(error);
                 })
-        }
+        },
+        success(text) {
+            this.text = text
+            this.alert = '#4caf50'
+            this.snackbar = true;
+        },
+        error(text) {
+            this.text = text
+            this.alert = '#ff5252'
+            this.snackbar = true;   
+        },
     }
 };
 </script>
